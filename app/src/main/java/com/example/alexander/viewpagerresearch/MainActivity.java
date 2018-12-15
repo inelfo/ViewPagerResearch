@@ -13,20 +13,30 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.example.alexander.viewpagerresearch.permissions.IPermissionsModel;
+import com.example.alexander.viewpagerresearch.permissions.PermissionItem;
+import com.example.alexander.viewpagerresearch.permissions.Permissions;
+import com.example.alexander.viewpagerresearch.permissions.PermissionsModel;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int PAGE_COUNT = 100;
     private static final String TAG = "myLogs";
     ViewPager viewPager;
     PagerAdapter pagerAdapter;
+    IPermissionsModel permissionsModel = new PermissionsModel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        List<PermissionItem> items = permissionsModel.getItems();
 
         viewPager = findViewById(R.id.viewpager);
-        pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+        pagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), items);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(1);
 
@@ -53,14 +63,16 @@ public class MainActivity extends AppCompatActivity {
 
     private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
+        List<PermissionItem> items;
 
-        public MyFragmentPagerAdapter(FragmentManager fm) {
+        public MyFragmentPagerAdapter(FragmentManager fm, List<PermissionItem> items) {
             super(fm);
+            this.items = items;
         }
 
         @Override
         public Fragment getItem(int position) {
-            return FragmentPager.newInstance(position);
+            return FragmentPager.newInstance(position, items.get(position));
         }
 
         @Override

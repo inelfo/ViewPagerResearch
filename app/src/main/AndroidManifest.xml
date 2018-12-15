@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.alexander.viewpagerresearch">
 
     <uses-permission android:name="android.permission.READ_CONTACTS"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--gps-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!--start after reboot-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!--usage stats-->
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <!--change ringing mode-->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <!--for imei-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--wifi-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <!--onTop-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
         android:allowBackup="true"

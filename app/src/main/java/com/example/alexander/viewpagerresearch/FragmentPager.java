@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.alexander.viewpagerresearch.permissions.IPermissionsModel;
+import com.example.alexander.viewpagerresearch.permissions.PermissionItem;
+import com.example.alexander.viewpagerresearch.permissions.PermissionsModel;
+
+import java.io.Serializable;
 import java.util.Random;
 
 public class FragmentPager extends Fragment {
@@ -20,30 +26,33 @@ public class FragmentPager extends Fragment {
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
     static final String TAG = "myLogs";
     private static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 12;
+    private static final String PERMISSION_ITEM = "permission_item";
 
     int pageNubmer;
     int backColor;
 
-    public static FragmentPager newInstance(int page) {
+    public static FragmentPager newInstance(int page, PermissionItem permissionItem) {
         FragmentPager fragmentPager = new FragmentPager();
         Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_PAGE_NUMBER, page);
+
         fragmentPager.setArguments(arguments);
+
         return fragmentPager;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        IPermissionsModel permissionsModel = new PermissionsModel();
         pageNubmer = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
-
+        PermissionItem permissionItem = permissionsModel.getItems().get(pageNubmer);
+        permissionItem.requestPermission(getActivity());
         Random rnd = new Random();
         backColor = Color.argb(40, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         Log.d(TAG, "onCreate Fragment: " + pageNubmer );
 
-        requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},
-                MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+
 
     }
 
@@ -56,8 +65,6 @@ public class FragmentPager extends Fragment {
         tvPage.setText("Page " + pageNubmer);
         tvPage.setBackgroundColor(backColor);
 
-        requestPermissions(new String[]{Manifest.permission.READ_CONTACTS},
-                MY_PERMISSIONS_REQUEST_READ_CONTACTS);
 
 
         Log.d(TAG, "onCreateView Fragment: " + pageNubmer );
