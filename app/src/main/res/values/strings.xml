@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ViewPagerResearch</string>
+    <string name="container">Container</string>
 </resources>
